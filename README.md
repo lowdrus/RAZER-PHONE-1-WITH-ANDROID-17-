@@ -3,18 +3,18 @@
 Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma multiboot moderna com Android gaming, Linux/AI e, futuramente, Windows, preservando uma experiência Razer coerente em toda a plataforma.
 
 ## STATUS ATUAL DO PROJETO
-- **Rodada atual:** 20 — Autoinstall Razer Preservation concluída
-- **Fase:** 0 — auditoria, preservação e recuperação
-- **Master Backup base:** 39 payloads / 218.344.844 bytes antes das extrações adicionais
+- **Rodada atual:** 21 — Master Backup Final Consolidation concluída
+- **Fase:** 0 — auditoria, preservação, consolidação e preparação de rollback
+- **Master Backup consolidado:** **80 payloads / 286.393.459 bytes / 273,13 MiB**
+- **SHA-256 únicos:** **76**
+- **Duplicidades:** **4 grupos / 8 entradas** — detectadas, nenhuma removida
 - **Extração adicional #19:** 23/23 componentes OK; 67.941.484 bytes; 0 FAIL; 0 ausentes
-- **Autoinstall #20:** `android.autoinstalls.config.razer.apk` preservado; 12.418 bytes; tamanho e SHA-256 remoto/local idênticos
-- **SHA-256 Autoinstall:** `584C517168FD93F5BA6B58296A716A9BAE0BC59DBC50530FA613B71862FE88DD`
+- **Autoinstall #20:** `android.autoinstalls.config.razer.apk` preservado e validado
 - **Overlays:** 13/13 recuperados e validados
-- **Deep Audit #02:** 15 relatórios analisados
-- **Preservation Matrix #18:** componentes Razer/Dolby explicitamente pendentes agora preservados
+- **Deep Audit #02:** 15 relatórios
 - **Chroma RGB:** ainda não confirmado como recurso nativo do Razer Phone 1
 - **Segurança:** nenhum flash, wipe, erase, root ou reboot executado
-- **Próximo checkpoint:** Rodada 21 — consolidação final do Master Backup + manifesto/hash mestre + duplicidades; depois plano de rollback
+- **Próximo checkpoint:** Rodada 22 — Master Backup Seal & Duplicate Classification + preparação do rollback
 
 ## Arquitetura final desejada
 1. **Android 17 / Gaming** — armazenamento interno, preservando/recriando a experiência oficial do Razer Phone 1.
@@ -27,18 +27,18 @@ Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma multiboot 
 ## Identidade Razer confirmada no firmware original
 Foram confirmados Nova Launcher/Razer, Game Booster, Theme Store, Razer Services, Camera, Wallpapers, Setup Wizard, fontes RazerF5, boot animation, overlays Razer/Nova, Razer Power HAL, charge-limit, blobs específicos Razer de câmera, componentes Dolby DAX/DSP, RazerPlayAutoInstall, certificados Theme Store e `android.autoinstalls.config.razer`.
 
-## Rodadas 19–20 — fechamento dos componentes adicionais
-A Rodada 19 preservou e validou 23 componentes adicionais, totalizando 67.941.484 bytes. A Rodada 20 localizou dinamicamente pelo Package Manager e preservou `android.autoinstalls.config.razer` a partir de `/data/app`, sem assumir o diretório aleatório de instalação.
+## Rodada 21 — consolidação do Master Backup
+A auditoria local encontrou **80 payloads**, somando **286.393.459 bytes (273,13 MiB)**. Foram encontrados **76 SHA-256 únicos**, com **4 grupos de duplicidade e 8 entradas**. Nenhuma duplicata foi apagada: a Rodada 22 fará a classificação antes do selo formal.
 
-O APK possui 12.418 bytes e SHA-256 `584C517168FD93F5BA6B58296A716A9BAE0BC59DBC50530FA613B71862FE88DD`, idêntico no aparelho e na cópia local. Manifesto: `MASTER-BACKUP\MANIFEST\AUTOINSTALL-RAZER.csv`.
+Foram produzidos `MASTER-MANIFEST.csv`, `SHA256SUMS.txt`, `DUPLICATES-BY-SHA256.csv`, `MASTER-BACKUP-STATS.txt`, `CONSOLIDATION-HASHES.csv` e `README-CONSOLIDATION.txt`. Os diretórios de relatórios/manifestos foram excluídos da contagem de payloads para evitar autorreferência.
 
-O backup ainda não é considerado formalmente selado: a próxima etapa consolidará todos os arquivos, hashes e duplicidades em um manifesto mestre antes da criação/validação do procedimento de rollback.
+**Nenhum payload foi apagado, movido ou modificado.** O backup ainda não é declarado formalmente selado até a Rodada 22 validar/classificar as duplicidades e estabelecer o checkpoint de integridade.
 
 ## Windows 11 ARM — requisito separado
 O Windows não deve simplesmente copiar a aparência do Razer Phone. Sua referência oficial é o **Razer Blade 18 (2026)**. Na fase Windows serão pesquisados os ativos/software oficiais apropriados, distinguindo recursos visuais, software compatível com ARM e funções dependentes de hardware/EC específico do notebook. A meta é uma experiência coerente de inicialização e desktop Razer Blade 18, sem declarar como nativas funções de hardware inexistentes no Razer Phone.
 
 ## Ordem de execução
-Preservação/rollback → Android 17 → Razer Experience Android → gaming/validação → Linux-AI ARM64 no microSD → Razer Experience Linux → multiboot validado → Windows 11 ARM em SSD externo + experiência Razer Blade 18 (2026) → DeX Case.
+Preservação → consolidação → selo/rollback → Android 17 → Razer Experience Android → gaming/validação → Linux-AI ARM64 no microSD → Razer Experience Linux → multiboot validado → Windows 11 ARM em SSD externo + experiência Razer Blade 18 (2026) → DeX Case.
 
 ## Segurança e distribuição
 Não executar wipes, erase, novo unlock, root ou flash destrutivo antes da preservação e do plano de rollback. Ativos/binários proprietários oficiais não serão automaticamente redistribuídos; quando necessário serão preservados localmente e o GitHub receberá manifestos, hashes, scripts e documentação compatíveis com a licença aplicável.

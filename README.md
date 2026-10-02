@@ -1,121 +1,96 @@
 # RAZER PHONE 1 WITH ANDROID 17
 
-Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma moderna focada em jogos, Android 17, Linux/AI e futura integração em gabinete estilo DeX, preservando a identidade visual oficial da Razer.
+Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma moderna focada em jogos, Android 17, Linux/AI e preservação da identidade visual oficial da Razer. O DeX Case permanece no roadmap e só será iniciado depois da conclusão e validação do Razer Phone 1.
+
+## STATUS ATUAL DO PROJETO
+
+- **Rodada atual:** 8 — concluída
+- **Próxima rodada:** 9 — preservação da Razer Experience original
+- **Fase:** 0 — auditoria, preservação e recuperação
+- **Última etapa concluída:** `AUDIT-01`
+- **ADB:** autorizado e operacional (`device`)
+- **Dispositivo:** Razer Phone 1 / `cheryl`
+- **Android original:** 9 / API 28
+- **Build:** `P-MR2-RC001-RZR-N.7083`
+- **Slot ativo:** `_a`
+- **Bootloader:** já desbloqueado (`ro.boot.flash.locked=0`, Verified Boot `orange`)
+- **Treble:** ativo
+- **Criptografia:** ativa
+- **Workspace:** `F:\PROJETO\PROJETO RAZER PHONE 1`
+- **Controle local durante ADB:** mouse Knup KP-TE144 e teclado Knup KP-TE127 via Bluetooth
+- **DeX Case:** aguardando conclusão do software/validação do telefone
+
+> Regra de sincronização: a rodada mostrada nesta página deve acompanhar o `DIARIO/`. Nenhuma rodada deve ser omitida até a conclusão do projeto.
 
 ## Objetivos
 
-- Android 17 no Razer Phone 1, com base em ROM customizada compatível.
-- Foco em desempenho, jogos, baixa carga em segundo plano e boa responsividade.
-- Avaliar Evolution X e alternativas modernas antes de escolher a base definitiva.
-- Preservar/reintegrar a identidade Razer quando tecnicamente e legalmente possível: Launcher Razer original, pacote de ícones Razer, wallpapers/live wallpapers e boot animation oficial.
-- Avaliar Linux-AI OS 1.0 `Star` (https://linux-ai-os.com/download.php) e estudar uma adaptação/integração adequada ao ARM64 do Razer Phone 1.
-- Preparar o aparelho para gabinete estilo DeX, com HDMI, teclado, mouse, armazenamento externo e futuras modificações de hardware.
+- Levar Android 17 ao `cheryl` com uma base tecnicamente adequada.
+- Priorizar desempenho, jogos, estabilidade, baixa carga em segundo plano, 120 Hz e recursos do hardware Razer.
+- Avaliar Evolution X, LineageOS/AOSP e alternativas antes de escolher a base definitiva.
+- Preservar/reintegrar a experiência Razer: launcher/overlays, ícones, wallpapers/live wallpapers, boot animation, sons e componentes compatíveis.
+- Estudar integração do Linux-AI OS Star/Allstar com ARM64/Snapdragon 835.
+- Somente depois do telefone concluído: desenvolver o DeX Case/gabinete e expansões físicas.
 
-## Hardware / cenário atual
+## Hardware e cenário confirmado
 
-- Dispositivo: Razer Phone 1
-- Codinome esperado: `cheryl`
-- Tela: trincada
-- Touch: não funcional
-- Controle local: teclado + mouse quando o hub está conectado
-- Hub USB-C: Knup KP-AD117 (2x USB 3.0, SD, microSD, USB-C aparentemente PD/alimentação, HDMI)
-- Para ADB, o telefone está conectado diretamente ao PC; nessa configuração não há teclado/mouse no telefone.
-- Serial ADB: `181805V00403723`
-- Estado ADB: `unauthorized transport_id:1`
-- Windows detecta `ADB Interface` em `USB\VID_1532&PID_905F&MI_02...`.
-- `adb get-state` e `adb shell` são recusados enquanto a chave RSA não for autorizada.
+- Razer Phone 1, codinome `cheryl`
+- Qualcomm MSM8998 / Snapdragon 835, AArch64
+- Tela trincada; touch inoperante
+- Mouse e teclado Bluetooth permitem controle local enquanto USB-C permanece conectado ao PC
+- Hub Knup KP-AD117 disponível para HDMI/USB/SD quando necessário
+- Esquema A/B confirmado; slot atual `_a`
+- Kernel original `4.4.153-perf+`
+- Platform Tools `37.0.1-15733141`
 
 ## Workspace local
 
-Raiz: `F:\PROJETO\PROJETO RAZER PHONE 1`
+`F:\PROJETO\PROJETO RAZER PHONE 1`
 
-Estrutura: `ANDROID-17`, `BACKUP`, `DEX-CASE`, `DUMPS`, `LINUX-AI`, `LOGS`, `RAZER-ORIGINAL`, `ROMS`, `TOOLS` e a pasta preexistente `desbloqueio razer phone 1`.
+Pastas principais: `ANDROID-17`, `BACKUP`, `DEX-CASE`, `DUMPS`, `LINUX-AI`, `LOGS`, `RAZER-ORIGINAL`, `ROMS`, `TOOLS`.
 
-Evitar armazenar ROMs, backups, imagens ou árvores de build grandes em `C:`.
+## AUDIT-01
 
-## Ferramentas locais auditadas
+A auditoria profunda somente leitura foi concluída e empacotada localmente como `RAZER-PHONE-1-AUDIT-01.zip`. Ela cobre propriedades, armazenamento, memória, CPU, mounts, partições, bateria, display, resolução/densidade, SurfaceFlinger, features, pacotes, componentes Razer, Treble, criptografia, kernel e estado de boot.
 
-A pasta `desbloqueio razer phone 1\platform-tools` contém um conjunto Android Platform Tools com:
+Componentes Razer identificados incluem Game Booster, Razer Services, Wallpapers, Theme Store, Camera, Setup Wizard e overlays específicos do `cheryl`. Os dados brutos do aparelho permanecem locais; o GitHub deve receber documentação sanitizada e scripts reproduzíveis, não dados pessoais ou dumps privados.
 
-- `adb.exe`
-- `fastboot.exe`
-- DLLs ADB para Windows
-- utilitários `etc1tool`, `hprof-conv`, `make_f2fs`, `mke2fs`, `sqlite3`
-- driver Google/Android WinUSB em `usb_driver`, com arquivos amd64/i386
+## Fases
 
-Não foram encontrados no inventário fornecido arquivos de ROM, recovery, boot image, APK, ISO, ZIP/RAR/7z, scripts BAT/PowerShell ou outros payloads de flash. Portanto, essa pasta é tratada por enquanto apenas como ferramentas ADB/Fastboot + driver, não como pacote de desbloqueio/ROM.
-
-Antes de usar os binários para operações de escrita, registrar versões e hashes.
-
-## Linux-AI OS
-
-Fonte oficial indicada: `https://linux-ai-os.com/download.php`.
-
-Linux-AI OS 1.0 `Star`, Cinnamon AI Edition. A imagem oficial indicada é AMD64/x86-64; o projeto investigará portar/recriar a experiência para ARM64 ou executar componentes compatíveis por outra camada, sem tratar a ISO AMD64 como flashável diretamente no Snapdragon 835.
-
-## Estado do projeto
-
-### Fase 0 — Auditoria e recuperação
-
-- [x] Repositório inicializado/documentado
-- [x] ADB detecta o aparelho
-- [x] Driver/interface ADB detectado corretamente pelo Windows
-- [x] Confirmado bloqueio RSA: `unauthorized`
-- [x] Identificada limitação: ADB direto remove temporariamente teclado/mouse do aparelho
-- [x] Auditada pasta local `desbloqueio razer phone 1`
-- [x] Confirmado que a pasta contém Platform Tools + driver, sem imagens/payloads de flash no inventário atual
-- [ ] Registrar versão e hashes das Platform Tools
-- [ ] Resolver autorização RSA sem touch
-- [ ] Coletar propriedades do sistema
-- [ ] Confirmar codinome, Android, build, slot A/B e bootloader
-- [ ] Preservar dados e preparar estratégia de backup
+### Fase 0 — Auditoria, preservação e recuperação
+- [x] ADB/driver funcionando
+- [x] Autorização RSA resolvida
+- [x] Platform Tools auditadas
+- [x] Dispositivo/build/slot/bootloader identificados
+- [x] `AUDIT-01` concluída
+- [ ] Preservar Razer Experience original
+- [ ] Preparar backup/rollback antes de qualquer flash
 
 ### Fase 1 — Android 17 / Gaming
-
-- [ ] Verificar disponibilidade real de Android 17 para `cheryl`
-- [ ] Avaliar Evolution X 17
-- [ ] Avaliar LineageOS/AOSP e device trees disponíveis
-- [ ] Escolher base pelo equilíbrio entre estabilidade, GPU, áudio, Wi-Fi, Bluetooth, câmera, HDMI/DisplayPort, 120 Hz e jogos
+- [ ] Auditar bases Android 17 disponíveis para `cheryl`
+- [ ] Avaliar Evolution X
+- [ ] Avaliar LineageOS/AOSP/device trees
+- [ ] Escolher e construir/testar a base
 
 ### Fase 2 — Razer Experience Layer
-
-- [ ] Extrair/preservar ativos originais antes de apagar dados
-- [ ] Catalogar launcher, ícones, wallpapers, live wallpapers, sons e boot animation
-- [ ] Reintegrar componentes compatíveis com Android 17
+- [ ] Reintegrar componentes compatíveis
+- [ ] Preservar aparência e comportamento Razer
 
 ### Fase 3 — Gaming optimization
-
-- [ ] Perfil seguro para Snapdragon 835 / Adreno 540
-- [ ] Redução de serviços desnecessários
-- [ ] Ajustes térmicos seguros
-- [ ] 120 Hz
-- [ ] Gamepad/teclado/mouse
-- [ ] HDMI e modo desktop
+- [ ] GPU/120 Hz/áudio/USB/Bluetooth/HDMI
+- [ ] Perfis de desempenho e térmica seguros
+- [ ] Testes de jogos e periféricos
 
 ### Fase 4 — Linux / AI
+- [ ] Projetar solução ARM64 para a experiência Linux-AI OS
+- [ ] Integrar IA local compatível com o Snapdragon 835
 
-- [x] Identificada a distribuição desejada: Linux-AI OS 1.0 `Star`
-- [x] Identificada imagem oficial AMD64
-- [ ] Investigar portabilidade ARM64
-- [ ] Projetar alternativa ARM64/container/chroot/emulação
-- [ ] IA local compatível com Snapdragon 835
+### Fase 5 — DeX Case
+**Bloqueada até a conclusão das fases anteriores.**
 
-### Fase 5 — Razer DeX Case
+## Segurança
 
-- [ ] Projeto mecânico/eletrônico
-- [ ] HDMI + hub USB-C
-- [ ] armazenamento removível
-- [ ] resfriamento
-- [ ] alimentação
-- [ ] botão externo de ligar/desligar
-- [ ] futuras expansões
-
-## Regra de segurança
-
-Não executar desbloqueio de bootloader, `fastboot flashing unlock`, wipes, formatação ou flash destrutivo antes de confirmar o estado atual, preservar o máximo possível dos dados/ativos Razer e documentar a recuperação.
+Não executar wipes, erase, novo unlock ou flash destrutivo antes da preservação e do plano de rollback. Não publicar chaves, identificadores desnecessários, dados pessoais ou dumps privados.
 
 ## Diário
 
-### 2026-10-02 — Rodada 4
-
-Concluída a auditoria da pasta local preexistente. Ela contém Android Platform Tools (`adb.exe`, `fastboot.exe` e utilitários associados) e pacote de driver WinUSB/Android para Windows. O inventário não mostrou ROMs, recoveries, imagens `.img`, APKs, ISOs, arquivos compactados ou scripts de flash. Próximos passos: registrar versão/hashes dessas ferramentas e resolver a autorização RSA sem touch antes de qualquer operação destrutiva.
+O histórico completo e cronológico fica em [`DIARIO/`](DIARIO/README.md). A página principal mostra apenas o checkpoint atual; o diário preserva todas as rodadas.

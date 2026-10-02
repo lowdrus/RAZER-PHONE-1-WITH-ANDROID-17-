@@ -3,9 +3,12 @@
 Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma multiboot moderna com Android gaming, Linux/AI e, futuramente, Windows, preservando a identidade Razer desde o boot até cada ambiente.
 
 ## STATUS ATUAL DO PROJETO
-- **Rodada atual:** 11 — Preservation Preflight concluído
+- **Rodada atual:** 12 — Razer Master Backup primeira passagem concluída
 - **Fase:** 0 — auditoria, preservação e recuperação
-- **Próximo checkpoint:** extração local dos ativos Razer + SHA-256 + manifesto verificável
+- **Backup preservado:** 26 arquivos / 218.102.260 bytes / 208 MiB
+- **Pendência:** 13 overlays de `/vendor/overlay` retornaram `Permission denied` e ainda precisam ser preservados
+- **Manifestos:** `FILES.csv` e `SHA256.csv` gerados
+- **Próximo checkpoint:** diagnóstico somente leitura das permissões dos overlays e conclusão do Master Backup
 - **ADB:** OK (`device`)
 - **Android original:** 9 / API 28 / `P-MR2-RC001-RZR-N.7083`
 - **Bootloader:** desbloqueado
@@ -22,24 +25,17 @@ Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma multiboot 
 > O multiboot e os boots por microSD/SSD são objetivos de engenharia. Não serão descritos como funcionais até serem comprovados no Razer Phone 1 real.
 
 ## Identidade Razer — requisito permanente
-A identidade visual padrão Razer deverá existir em toda a sequência de inicialização e em todos os sistemas compatíveis:
+A identidade visual padrão Razer deverá existir desde o primeiro estágio visual tecnicamente controlável da inicialização e continuar no futuro seletor/boot manager e em cada sistema: Android 17, Linux-AI e, futuramente, Windows 11 ARM.
 
-- futuro seletor/boot manager com visual Razer;
-- Android 17 com Razer Experience;
-- Linux-AI com splash/boot, login, desktop, fontes, wallpapers, ícones, botões/controles e temas Razer;
-- Windows 11 ARM, na etapa futura, com camada visual Razer compatível.
-
-Ativos proprietários extraídos permanecem no backup local. O GitHub prioriza scripts, manifestos e instruções reproduzíveis.
-
-## Preservation Preflight — Rodada 11
-Confirmados e legíveis no firmware original:
-
-- RazerGameBooster, RazerServices, RazerSetupWizard, RazerThemeStore, RazerCamera, NovaLauncher e RazerWallpapers;
-- `bootanimation.zip` original com 88.586.968 bytes;
+## Razer Master Backup — Rodada 12
+Preservados com sucesso nesta passagem:
+- 7 APKs principais Razer/Nova;
+- `bootanimation.zip` original;
 - 10 fontes RazerF5;
-- NovaLauncherOverlay e overlays Razer Cheryl/Common;
-- XMLs de features/permissões/whitelist;
-- scripts init Razer de charge limit, common, theme e power service.
+- 8 arquivos XML/RC de configuração;
+- hashes SHA-256 e inventário local.
+
+Os 13 overlays Razer/Nova foram encontrados, mas o `adb pull` direto de `/vendor/overlay` foi bloqueado por permissão. Eles continuam pendentes e não serão ignorados.
 
 ## Ordem de execução
 Preservação/rollback → Android 17 → Razer Experience Android → gaming/validação → Linux-AI ARM64 no microSD → Razer Experience Linux → multiboot validado → Windows 11 ARM em SSD externo (pesquisa/port) → DeX Case.

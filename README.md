@@ -3,18 +3,14 @@
 Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma multiboot moderna com Android gaming, Linux/AI e, futuramente, Windows, preservando uma experiência Razer coerente em toda a plataforma.
 
 ## STATUS ATUAL DO PROJETO
-- **Rodada atual:** 15 — Overlay Master Recovery concluído
+- **Rodada atual:** 16 — Razer Experience Deep Audit #02 concluída
 - **Fase:** 0 — auditoria, preservação e recuperação
-- **Master Backup atual:** 39 arquivos de payload / 218.344.844 bytes / 208,23 MiB
-- **Overlays:** 13 esperados / 13 recuperados / 13 validados / 0 falhas
-- **Validação dos overlays:** tamanho remoto/local + assinatura ZIP/APK + SHA-256 remoto/local
-- **SHA-256 remoto:** disponível via `/system/bin/sha256sum`
-- **Manifestos:** `FILES.csv`, `SHA256.csv` e `OVERLAY-RECOVERY.csv`
-- **ADB:** OK (`device`), shell uid 2000
-- **SELinux:** Enforcing
-- **Build:** produção (`ro.debuggable=0`, `ro.secure=1`, `ro.adb.secure=1`)
-- **Flash/wipe/erase/root no projeto:** não executados
-- **Próximo checkpoint:** fechamento formal da preservação Razer e auditoria de ativos/componentes ainda não copiados antes de qualquer instalação do Android 17
+- **Master Backup preservado:** 39 arquivos de payload / 218.344.844 bytes / 208,23 MiB antes da classificação dos novos candidatos
+- **Overlays:** 13/13 recuperados e validados, 0 falhas
+- **Deep Audit #02:** 15 relatórios gerados com sucesso
+- **Escopo auditado:** propriedades, Razer/Cheryl/Nova, visuais, áudio, fontes, bibliotecas, configurações, serviços, pacotes, features e hardware config
+- **Segurança:** nenhum flash, wipe, erase, root ou reboot executado
+- **Próximo checkpoint:** analisar o conteúdo dos 15 relatórios e classificar ativos adicionais antes de qualquer instalação do Android 17
 
 ## Arquitetura final desejada
 1. **Android 17 / Gaming** — armazenamento interno, com Razer Experience.
@@ -32,8 +28,8 @@ Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma multiboot 
 
 Ativos proprietários oficiais devem ser obtidos legitimamente e mantidos localmente quando a redistribuição não for permitida; o repositório prioriza scripts, manifestos e documentação reproduzível.
 
-## Descoberta da Rodada 15
-A limitação do `adb pull` em `/vendor/overlay` foi contornada de forma somente leitura por `adb exec-out cat`. Todos os **13 overlays** foram recuperados. Para cada um, o tamanho remoto coincidiu com o local, a assinatura ZIP/APK foi validada e o SHA-256 calculado no Razer Phone coincidiu com o SHA-256 calculado no PC. Resultado: **13/13 OK, 0 FAIL**. O Master Backup passou a 39 arquivos de payload e 218.344.844 bytes.
+## Rodada 16 — Deep Audit #02
+A auditoria somente leitura gerou 15 relatórios em `RAZER-ORIGINAL\MASTER-BACKUP\AUDIT-RAZER-EXPERIENCE-02`. O console confirma a conclusão normal da coleta e a existência dos relatórios. Como o log de execução contém os nomes/tamanhos, mas não o conteúdo interno dos relatórios, a próxima etapa é coletar/analisar esses arquivos para decidir exatamente o que ainda deve ser preservado. Não avançaremos para Android 17 com essa classificação pendente.
 
 ## Ordem de execução
 Preservação/rollback → Android 17 → Razer Experience Android → gaming/validação → Linux-AI ARM64 no microSD → Razer Experience Linux → multiboot validado → Windows 11 ARM em SSD externo + experiência Razer Blade 18 (2026) → DeX Case.

@@ -1,11 +1,11 @@
 # RAZER PHONE 1 WITH ANDROID 17
 
-Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma multiboot moderna com Android gaming, Linux/AI e, futuramente, Windows, preservando a identidade Razer.
+Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma multiboot moderna com Android gaming, Linux/AI e, futuramente, Windows, preservando a identidade Razer desde o boot até cada ambiente.
 
 ## STATUS ATUAL DO PROJETO
-- **Rodada atual:** 10 — inventário Razer analisado e arquitetura multiboot definida
+- **Rodada atual:** 11 — Preservation Preflight concluído
 - **Fase:** 0 — auditoria, preservação e recuperação
-- **Próximo checkpoint:** extrair/preservar os componentes Razer originais e preparar rollback
+- **Próximo checkpoint:** extração local dos ativos Razer + SHA-256 + manifesto verificável
 - **ADB:** OK (`device`)
 - **Android original:** 9 / API 28 / `P-MR2-RC001-RZR-N.7083`
 - **Bootloader:** desbloqueado
@@ -21,13 +21,25 @@ Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma multiboot 
 
 > O multiboot e os boots por microSD/SSD são objetivos de engenharia. Não serão descritos como funcionais até serem comprovados no Razer Phone 1 real.
 
-## Linux-AI + Razer Experience
-A versão oficial Linux-AI OS 1.0 Star disponível atualmente é amd64/x64 UEFI, enquanto `cheryl` usa AArch64/MSM8998. Portanto será necessário criar/portar uma edição ARM64 compatível, em vez de simplesmente gravar a ISO oficial no microSD.
+## Identidade Razer — requisito permanente
+A identidade visual padrão Razer deverá existir em toda a sequência de inicialização e em todos os sistemas compatíveis:
 
-Objetivo visual no Linux: experiência Razer completa desde o boot, incluindo splash/boot, tema, fontes, wallpapers, ícones, botões/controles e demais elementos compatíveis.
+- futuro seletor/boot manager com visual Razer;
+- Android 17 com Razer Experience;
+- Linux-AI com splash/boot, login, desktop, fontes, wallpapers, ícones, botões/controles e temas Razer;
+- Windows 11 ARM, na etapa futura, com camada visual Razer compatível.
 
-## Razer Experience preservada no Android original
-O inventário confirmou Game Booster, Razer Services, Setup Wizard, Theme Store, Camera, Nova Launcher, Nova overlay, Razer Wallpapers, fontes RazerF5, `bootanimation.zip`, sons, biblioteca/serviço de power Razer e overlays Cheryl/Common para Framework, Settings, SystemUI, Bluetooth, Telephony e Telecom.
+Ativos proprietários extraídos permanecem no backup local. O GitHub prioriza scripts, manifestos e instruções reproduzíveis.
+
+## Preservation Preflight — Rodada 11
+Confirmados e legíveis no firmware original:
+
+- RazerGameBooster, RazerServices, RazerSetupWizard, RazerThemeStore, RazerCamera, NovaLauncher e RazerWallpapers;
+- `bootanimation.zip` original com 88.586.968 bytes;
+- 10 fontes RazerF5;
+- NovaLauncherOverlay e overlays Razer Cheryl/Common;
+- XMLs de features/permissões/whitelist;
+- scripts init Razer de charge limit, common, theme e power service.
 
 ## Ordem de execução
 Preservação/rollback → Android 17 → Razer Experience Android → gaming/validação → Linux-AI ARM64 no microSD → Razer Experience Linux → multiboot validado → Windows 11 ARM em SSD externo (pesquisa/port) → DeX Case.

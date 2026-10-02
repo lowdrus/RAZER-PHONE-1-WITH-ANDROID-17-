@@ -8,7 +8,7 @@ Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma moderna fo
 - Foco em desempenho, jogos, baixa carga em segundo plano e boa responsividade.
 - Avaliar Evolution X e alternativas modernas antes de escolher a base definitiva.
 - Preservar/reintegrar a identidade Razer quando tecnicamente e legalmente possível: Launcher Razer original, pacote de ícones Razer, wallpapers/live wallpapers e boot animation oficial.
-- Avaliar Linux-AI OS e formas realistas de integração/execução no hardware ARM64.
+- Avaliar Linux-AI OS 1.0 `Star` (https://linux-ai-os.com/download.php) e estudar uma adaptação/integração adequada ao ARM64 do Razer Phone 1.
 - Preparar o aparelho para gabinete estilo DeX, com HDMI, teclado, mouse, armazenamento externo e futuras modificações de hardware.
 
 ## Hardware / cenário atual
@@ -24,9 +24,11 @@ Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma moderna fo
   - leitor microSD
   - USB-C aparentemente apenas para alimentação/PD no cenário testado
   - HDMI
-- Para ADB, o telefone está atualmente conectado diretamente ao PC por cabo USB-C; nessa configuração não há teclado/mouse conectado ao telefone.
-- ADB atual: `181805V00403723 unauthorized`
-- Reiniciar o servidor ADB não alterou o estado; falta aceitar a chave RSA no aparelho.
+- Para ADB, o telefone está conectado diretamente ao PC por cabo USB-C; nessa configuração não há teclado/mouse conectado ao telefone.
+- Serial ADB: `181805V00403723`
+- Estado ADB: `unauthorized transport_id:1`
+- Windows detecta `ADB Interface` em `USB\VID_1532&PID_905F&MI_02...`; VID `1532` corresponde à interface apresentada pelo hardware Razer.
+- `adb get-state` e `adb shell` são recusados enquanto a chave RSA não for autorizada.
 
 ## Workspace local
 
@@ -34,7 +36,27 @@ Por falta de espaço em `C:`, arquivos, ferramentas, backups, dumps e builds des
 
 `F:\PROJETO\PROJETO RAZER PHONE 1`
 
+Estrutura criada:
+
+- `ANDROID-17`
+- `BACKUP`
+- `DEX-CASE`
+- `DUMPS`
+- `LINUX-AI`
+- `LOGS`
+- `RAZER-ORIGINAL`
+- `ROMS`
+- `TOOLS`
+
+Também já existia a pasta `desbloqueio razer phone 1`; seu conteúdo deve ser auditado antes de ser usado.
+
 Evitar armazenar imagens Android, ROMs, backups ou árvores de build grandes em `C:` sempre que houver alternativa configurável.
+
+## Linux-AI OS
+
+Fonte oficial indicada para o projeto: `https://linux-ai-os.com/download.php`.
+
+A distribuição atual é Linux-AI OS 1.0 `Star`, Cinnamon AI Edition, baseada em LMDE 7 / Debian, e o arquivo oficial publicado é `linux-ai-1.0-star-cinnamon-amd64.iso`. Portanto, a ISO publicada é AMD64/x86-64 e não pode ser instalada diretamente como sistema ARM64 nativo no Snapdragon 835. O projeto investigará portar/recriar a experiência Linux-AI para ARM64 ou executar componentes compatíveis por outra camada, sem assumir que a ISO AMD64 possa ser simplesmente flasheada no telefone.
 
 ## Estado do projeto
 
@@ -42,8 +64,11 @@ Evitar armazenar imagens Android, ROMs, backups ou árvores de build grandes em 
 
 - [x] Repositório inicializado/documentado
 - [x] ADB detecta o aparelho
+- [x] Driver/interface ADB detectado corretamente pelo Windows
+- [x] Confirmado bloqueio RSA: `unauthorized`
 - [x] Identificada limitação operacional: conexão ADB direta remove temporariamente teclado/mouse do aparelho
 - [ ] Resolver autorização RSA sem touch
+- [ ] Auditar pasta local `desbloqueio razer phone 1`
 - [ ] Coletar propriedades do sistema
 - [ ] Confirmar codinome, versão Android, build, slot A/B e estado do bootloader
 - [ ] Preservar dados e preparar estratégia de backup
@@ -73,9 +98,10 @@ Evitar armazenar imagens Android, ROMs, backups ou árvores de build grandes em 
 
 ### Fase 4 — Linux / AI
 
-- [ ] Avaliar Linux-AI OS
-- [ ] Verificar arquiteturas disponibilizadas pelo projeto
-- [ ] Projetar alternativa ARM64/container/chroot/VM quando necessário
+- [x] Identificada a distribuição exata: Linux-AI OS 1.0 `Star`, Cinnamon AI Edition
+- [x] Confirmado que a ISO oficial atual é `amd64`
+- [ ] Investigar código/componentes disponíveis e portabilidade ARM64
+- [ ] Projetar alternativa ARM64/container/chroot/emulação quando necessário
 - [ ] Integrar IA local compatível com os recursos do Snapdragon 835
 
 ### Fase 5 — Razer DeX Case
@@ -94,10 +120,10 @@ Não executar desbloqueio de bootloader, `fastboot flashing unlock`, wipes, form
 
 ## Diário
 
-### 2026-10-02 — Rodada 2
+### 2026-10-02 — Rodada 3
 
-Confirmado que o Knup KP-AD117 não está sendo usado durante ADB. Para o PC detectar o aparelho, o cabo USB-C está ligado diretamente entre Razer Phone 1 e PC. Nessa configuração teclado e mouse não ficam disponíveis no telefone. Após `adb kill-server`, `adb start-server` e `adb devices`, o estado continua `181805V00403723 unauthorized`.
+Workspace `F:\PROJETO\PROJETO RAZER PHONE 1` criado com sucesso. O Windows reconhece `ADB Interface` (`VID_1532`, `PID_905F`, interface `MI_02`). `adb devices -l` retorna `181805V00403723 unauthorized transport_id:1`. `adb get-state` e `adb shell getprop ro.product.model` confirmam que o daemon não permite shell antes da autorização RSA.
 
-Definido workspace local principal: `F:\PROJETO\PROJETO RAZER PHONE 1`.
+Confirmada também a fonte correta do Linux desejado: Linux-AI OS 1.0 `Star`, no site oficial `linux-ai-os.com`. A imagem oficial atual é AMD64, então será necessária uma estratégia específica para ARM64.
 
-Próximo objetivo: resolver a autorização RSA sem depender do touch, preferencialmente sem wipe ou flash destrutivo.
+Próximo objetivo: recuperar uma forma de entrada para aceitar a janela RSA sem apagar o aparelho e, paralelamente, auditar os arquivos já existentes na pasta local `desbloqueio razer phone 1` antes de usar qualquer ferramenta de desbloqueio.

@@ -1,47 +1,43 @@
 # RAZER PHONE 1 WITH ANDROID 17
 
-Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma multiboot moderna com Android gaming, Linux/AI e, futuramente, Windows, preservando a identidade Razer desde o boot até cada ambiente.
+Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma multiboot moderna com Android gaming, Linux/AI e, futuramente, Windows, preservando uma experiência Razer coerente em toda a plataforma.
 
 ## STATUS ATUAL DO PROJETO
-- **Rodada atual:** 12 — Razer Master Backup primeira passagem concluída
+- **Rodada atual:** 13 — diagnóstico de acesso aos overlays concluído
 - **Fase:** 0 — auditoria, preservação e recuperação
 - **Backup preservado:** 26 arquivos / 218.102.260 bytes / 208 MiB
-- **Pendência:** 13 overlays de `/vendor/overlay` retornaram `Permission denied` e ainda precisam ser preservados
+- **Pendência:** 13 overlays de `/vendor/overlay`; `adb pull` é negado, mas leitura pelo shell foi comprovada
 - **Manifestos:** `FILES.csv` e `SHA256.csv` gerados
-- **Próximo checkpoint:** diagnóstico somente leitura das permissões dos overlays e conclusão do Master Backup
-- **ADB:** OK (`device`)
-- **Android original:** 9 / API 28 / `P-MR2-RC001-RZR-N.7083`
-- **Bootloader:** desbloqueado
-- **Slot:** `_a`
-- **Treble:** ativo
-- **Flash/wipe/erase no projeto:** não executados
+- **Próximo checkpoint:** extração binária experimental de 1 overlay via shell/exec-out + validação de integridade
+- **ADB:** OK (`device`), shell uid 2000
+- **SELinux:** Enforcing
+- **Build:** produção (`ro.debuggable=0`, `ro.secure=1`, `ro.adb.secure=1`)
+- **Flash/wipe/erase/root no projeto:** não executados
 
 ## Arquitetura final desejada
-1. **Android 17 / Gaming** — sistema principal no armazenamento interno.
-2. **Linux-AI OS Star/Allstar ARM64** — sistema Linux no cartão microSD; não usar a memória interna como armazenamento principal do Linux.
-3. **Windows 11 ARM** — etapa posterior ao Linux-AI, com objetivo de execução em SSD externo; depende de pesquisa/port e validação real do hardware.
-4. **DeX Case** — somente após os sistemas e o multiboot estarem concluídos e validados.
+1. **Android 17 / Gaming** — armazenamento interno, com Razer Experience.
+2. **Linux-AI OS Star/Allstar ARM64** — microSD, com experiência Razer completa desde o boot até o desktop.
+3. **Windows 11 ARM** — depois do Linux-AI, com objetivo de SSD externo e experiência visual baseada no Razer Blade 18 (2026); depende de pesquisa/port e validação real.
+4. **DeX Case** — somente após sistemas e multiboot concluídos e validados.
 
-> O multiboot e os boots por microSD/SSD são objetivos de engenharia. Não serão descritos como funcionais até serem comprovados no Razer Phone 1 real.
+> Boot por microSD/SSD e multiboot são objetivos de engenharia, não capacidades declaradas como prontas antes de teste no hardware.
 
-## Identidade Razer — requisito permanente
-A identidade visual padrão Razer deverá existir desde o primeiro estágio visual tecnicamente controlável da inicialização e continuar no futuro seletor/boot manager e em cada sistema: Android 17, Linux-AI e, futuramente, Windows 11 ARM.
+## Identidade Razer
+- **Android 17:** preservar/recriar a identidade oficial do Razer Phone 1 compatível com o novo Android.
+- **Linux-AI:** Razer desde os estágios de boot controláveis, splash/login, desktop, fontes, wallpapers, ícones, botões, controles e temas.
+- **Windows 11 ARM:** referência visual/nativa oficial desejada do **Razer Blade 18 (2026)**, incluindo inicialização e experiência Windows/Razer na medida tecnicamente e licenciadamente possível.
+- **Boot manager:** experiência Razer coerente na seleção dos sistemas.
 
-## Razer Master Backup — Rodada 12
-Preservados com sucesso nesta passagem:
-- 7 APKs principais Razer/Nova;
-- `bootanimation.zip` original;
-- 10 fontes RazerF5;
-- 8 arquivos XML/RC de configuração;
-- hashes SHA-256 e inventário local.
+Ativos proprietários oficiais devem ser obtidos legitimamente e mantidos localmente quando a redistribuição não for permitida; o repositório prioriza scripts, manifestos e documentação reproduzível.
 
-Os 13 overlays Razer/Nova foram encontrados, mas o `adb pull` direto de `/vendor/overlay` foi bloqueado por permissão. Eles continuam pendentes e não serão ignorados.
+## Descoberta da Rodada 13
+`/vendor/overlay` e os APKs possuem permissões Unix aparentemente legíveis, mas SELinux está Enforcing e `adb pull` é negado. O shell ADB conseguiu ler os primeiros bytes de `RazerCherylSystemUIRes.apk`, revelando `PK`, assinatura esperada de ZIP/APK. A próxima tentativa será streaming binário somente leitura pelo shell, seguido de comparação de tamanho/hash antes de copiar os demais overlays.
 
 ## Ordem de execução
-Preservação/rollback → Android 17 → Razer Experience Android → gaming/validação → Linux-AI ARM64 no microSD → Razer Experience Linux → multiboot validado → Windows 11 ARM em SSD externo (pesquisa/port) → DeX Case.
+Preservação/rollback → Android 17 → Razer Experience Android → gaming/validação → Linux-AI ARM64 no microSD → Razer Experience Linux → multiboot validado → Windows 11 ARM em SSD externo + experiência Razer Blade 18 (2026) → DeX Case.
 
 ## Segurança
-Não executar wipes, erase, novo unlock ou flash destrutivo antes da preservação e do plano de rollback. Dados brutos e blobs proprietários permanecem locais; o GitHub recebe scripts e documentação reproduzíveis.
+Não executar wipes, erase, novo unlock, root ou flash destrutivo antes da preservação e do plano de rollback.
 
 ## Diário
 O histórico cronológico completo fica em [`DIARIO/`](DIARIO/README.md). README e diário devem permanecer sincronizados.

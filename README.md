@@ -1,65 +1,39 @@
 # RAZER PHONE 1 WITH ANDROID 17
 
-Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma moderna focada em jogos, Android 17, Linux/AI e preservação da identidade visual oficial da Razer. O DeX Case permanece no roadmap e só será iniciado depois da conclusão e validação do Razer Phone 1.
+Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma multiboot moderna com Android gaming, Linux/AI e, futuramente, Windows, preservando a identidade Razer.
 
 ## STATUS ATUAL DO PROJETO
-
-- **Rodada atual:** 9 — inventário da Razer Experience concluído; preservação em andamento
-- **Próximo checkpoint:** analisar os 5 inventários e gerar manifesto preciso de extração
+- **Rodada atual:** 10 — inventário Razer analisado e arquitetura multiboot definida
 - **Fase:** 0 — auditoria, preservação e recuperação
-- **ADB:** autorizado e operacional (`device`)
-- **Dispositivo:** Razer Phone 1 / `cheryl`
-- **Android original:** 9 / API 28
-- **Build:** `P-MR2-RC001-RZR-N.7083`
-- **Slot ativo:** `_a`
-- **Bootloader:** já desbloqueado (`ro.boot.flash.locked=0`, Verified Boot `orange`)
+- **Próximo checkpoint:** extrair/preservar os componentes Razer originais e preparar rollback
+- **ADB:** OK (`device`)
+- **Android original:** 9 / API 28 / `P-MR2-RC001-RZR-N.7083`
+- **Bootloader:** desbloqueado
+- **Slot:** `_a`
 - **Treble:** ativo
-- **Criptografia:** ativa
-- **Workspace:** `F:\PROJETO\PROJETO RAZER PHONE 1`
-- **Controle local durante ADB:** mouse Knup KP-TE144 e teclado Knup KP-TE127 via Bluetooth
-- **DeX Case:** aguardando conclusão do software/validação do telefone
+- **Flash/wipe/erase no projeto:** não executados
 
-> Regra de sincronização: a rodada mostrada nesta página acompanha o `DIARIO/`. Nenhuma rodada deve ser omitida até a conclusão do projeto.
+## Arquitetura final desejada
+1. **Android 17 / Gaming** — sistema principal no armazenamento interno.
+2. **Linux-AI OS Star/Allstar ARM64** — sistema Linux no cartão microSD; não usar a memória interna como armazenamento principal do Linux.
+3. **Windows 11 ARM** — etapa posterior ao Linux-AI, com objetivo de execução em SSD externo; depende de pesquisa/port e validação real do hardware.
+4. **DeX Case** — somente após os sistemas e o multiboot estarem concluídos e validados.
 
-## Objetivos
-- Android 17 no `cheryl` com base tecnicamente adequada.
-- Desempenho gaming, estabilidade, baixa carga em segundo plano, 120 Hz e recursos Razer.
-- Avaliar Evolution X, LineageOS/AOSP e alternativas antes da escolha definitiva.
-- Preservar/reintegrar launcher/overlays, ícones, wallpapers/live wallpapers, boot animation, sons e componentes Razer compatíveis.
-- Estudar Linux-AI OS Star/Allstar em ARM64/Snapdragon 835.
-- Desenvolver DeX Case somente depois do telefone concluído.
+> O multiboot e os boots por microSD/SSD são objetivos de engenharia. Não serão descritos como funcionais até serem comprovados no Razer Phone 1 real.
 
-## Fase 0 — progresso
-- [x] ADB/driver funcionando
-- [x] Autorização RSA resolvida
-- [x] Platform Tools auditadas
-- [x] Dispositivo/build/slot/bootloader identificados
-- [x] `AUDIT-01` concluída
-- [x] Inventário inicial da Razer Experience concluído
-- [ ] Analisar inventários e gerar manifesto de preservação
-- [ ] Extrair componentes Razer necessários
-- [ ] Preparar backup/rollback antes de qualquer flash
+## Linux-AI + Razer Experience
+A versão oficial Linux-AI OS 1.0 Star disponível atualmente é amd64/x64 UEFI, enquanto `cheryl` usa AArch64/MSM8998. Portanto será necessário criar/portar uma edição ARM64 compatível, em vez de simplesmente gravar a ISO oficial no microSD.
 
-## Inventário Razer Experience — Rodada 9
-Gerados localmente em `RAZER-ORIGINAL\INVENTORY`:
+Objetivo visual no Linux: experiência Razer completa desde o boot, incluindo splash/boot, tema, fontes, wallpapers, ícones, botões/controles e demais elementos compatíveis.
 
-- `01-razer-nova-packages.txt` — 1.981 B
-- `02-razer-files.txt` — 2.630 B
-- `03-visual-audio-assets.txt` — 7.354 B
-- `04-system-apks.txt` — 8.307 B
-- `05-overlay-state.txt` — 1.468 B
+## Razer Experience preservada no Android original
+O inventário confirmou Game Booster, Razer Services, Setup Wizard, Theme Store, Camera, Nova Launcher, Nova overlay, Razer Wallpapers, fontes RazerF5, `bootanimation.zip`, sons, biblioteca/serviço de power Razer e overlays Cheryl/Common para Framework, Settings, SystemUI, Bluetooth, Telephony e Telecom.
 
-Os dados brutos permanecem locais. O repositório recebe documentação sanitizada e scripts reproduzíveis, não dumps privados nem blobs proprietários redistribuídos indevidamente.
-
-## Próximas fases
-1. Android 17 / Gaming
-2. Razer Experience Layer
-3. Gaming optimization
-4. Linux / AI
-5. DeX Case — bloqueado até a conclusão das fases anteriores
+## Ordem de execução
+Preservação/rollback → Android 17 → Razer Experience Android → gaming/validação → Linux-AI ARM64 no microSD → Razer Experience Linux → multiboot validado → Windows 11 ARM em SSD externo (pesquisa/port) → DeX Case.
 
 ## Segurança
-Não executar wipes, erase, novo unlock ou flash destrutivo antes da preservação e do plano de rollback.
+Não executar wipes, erase, novo unlock ou flash destrutivo antes da preservação e do plano de rollback. Dados brutos e blobs proprietários permanecem locais; o GitHub recebe scripts e documentação reproduzíveis.
 
 ## Diário
-O histórico cronológico completo fica em [`DIARIO/`](DIARIO/README.md).
+O histórico cronológico completo fica em [`DIARIO/`](DIARIO/README.md). README e diário devem permanecer sincronizados.

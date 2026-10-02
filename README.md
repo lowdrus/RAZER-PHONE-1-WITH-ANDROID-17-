@@ -3,17 +3,18 @@
 Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma multiboot moderna com Android gaming, Linux/AI e, futuramente, Windows, preservando uma experiência Razer coerente em toda a plataforma.
 
 ## STATUS ATUAL DO PROJETO
-- **Rodada atual:** 14 — recuperação experimental de overlay validada
+- **Rodada atual:** 15 — Overlay Master Recovery concluído
 - **Fase:** 0 — auditoria, preservação e recuperação
-- **Backup base:** 26 arquivos / 218.102.260 bytes / 208 MiB, mais o primeiro overlay recuperado (a contagem final será regenerada após os 13 overlays)
-- **Overlay de prova:** `RazerCherylSystemUIRes.apk`, 8542 bytes remoto/local
-- **SHA-256 local da prova:** `C357657F09CC9903A55B46688FBA012D875D991E66A296BEB50F055FEB1D5B51`
-- **Método comprovado:** `adb exec-out cat` consegue recuperar o overlay sem root ou alteração de SELinux
-- **Pendência:** recuperar/validar os demais overlays e regenerar manifestos
+- **Master Backup atual:** 39 arquivos de payload / 218.344.844 bytes / 208,23 MiB
+- **Overlays:** 13 esperados / 13 recuperados / 13 validados / 0 falhas
+- **Validação dos overlays:** tamanho remoto/local + assinatura ZIP/APK + SHA-256 remoto/local
+- **SHA-256 remoto:** disponível via `/system/bin/sha256sum`
+- **Manifestos:** `FILES.csv`, `SHA256.csv` e `OVERLAY-RECOVERY.csv`
 - **ADB:** OK (`device`), shell uid 2000
 - **SELinux:** Enforcing
 - **Build:** produção (`ro.debuggable=0`, `ro.secure=1`, `ro.adb.secure=1`)
 - **Flash/wipe/erase/root no projeto:** não executados
+- **Próximo checkpoint:** fechamento formal da preservação Razer e auditoria de ativos/componentes ainda não copiados antes de qualquer instalação do Android 17
 
 ## Arquitetura final desejada
 1. **Android 17 / Gaming** — armazenamento interno, com Razer Experience.
@@ -31,8 +32,8 @@ Projeto para transformar o Razer Phone 1 (`cheryl`) em uma plataforma multiboot 
 
 Ativos proprietários oficiais devem ser obtidos legitimamente e mantidos localmente quando a redistribuição não for permitida; o repositório prioriza scripts, manifestos e documentação reproduzível.
 
-## Descoberta da Rodada 14
-O `adb pull` direto de `/vendor/overlay` é bloqueado, porém `adb exec-out cat` recuperou `RazerCherylSystemUIRes.apk` com exatamente **8542 bytes**, igual ao tamanho remoto. Os primeiros bytes locais foram `50 4B 03 04`, assinatura ZIP/APK esperada. A cópia local recebeu SHA-256 `C357657F09CC9903A55B46688FBA012D875D991E66A296BEB50F055FEB1D5B51`. O próximo checkpoint é automatizar o mesmo método para os 13 overlays, comparar tamanho remoto/local, tentar SHA-256 remoto quando disponível e regenerar os manifestos.
+## Descoberta da Rodada 15
+A limitação do `adb pull` em `/vendor/overlay` foi contornada de forma somente leitura por `adb exec-out cat`. Todos os **13 overlays** foram recuperados. Para cada um, o tamanho remoto coincidiu com o local, a assinatura ZIP/APK foi validada e o SHA-256 calculado no Razer Phone coincidiu com o SHA-256 calculado no PC. Resultado: **13/13 OK, 0 FAIL**. O Master Backup passou a 39 arquivos de payload e 218.344.844 bytes.
 
 ## Ordem de execução
 Preservação/rollback → Android 17 → Razer Experience Android → gaming/validação → Linux-AI ARM64 no microSD → Razer Experience Linux → multiboot validado → Windows 11 ARM em SSD externo + experiência Razer Blade 18 (2026) → DeX Case.

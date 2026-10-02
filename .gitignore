@@ -1,0 +1,44 @@
+# Personal/device dumps and backups
+BACKUP/
+DUMPS/
+RAZER-ORIGINAL/
+*.ab
+*.bak
+*.dump
+
+# Large/generated Android artifacts
+out/
+*.img
+*.iso
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+
+# Proprietary extracted blobs / local vendor payloads
+vendor/razer/cheryl/proprietary/
+proprietary-local/
+
+# Keys and credentials
+*.key
+*.pem
+*.pk8
+*.keystore
+*.jks
+*.p12
+*.der
+*.env
+.env*
+
+# Unique/private device material
+persist-backup/
+efs-backup/
+modemst*-backup/
+
+# Tool caches / IDE
+.repo/
+.vscode/
+.idea/
+__pycache__/
+*.log
